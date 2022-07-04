@@ -1,0 +1,43 @@
+LEX:
+
+%{
+#include"y.tab.h"
+%}
+
+%%
+[0-9]+ {return NUMBER;}
+[a-zA-Z][a-zA-Z0-9_]* {return ID;}
+\n {return NL;}
+. {return yytext[0];}
+%%
+
+
+YACC:
+
+%{
+#include<stdio.h>
+#include<stdlib.h>
+%}
+
+%token NUMBER ID NL
+%left '+' '-'
+%left '*' '/'
+
+%%
+stmt: exp NL {printf("valid expression\n"); exit(0);}
+;
+exp: exp '+' exp | exp '-' exp | exp '*' exp | exp '/' exp | '(' exp ')' | ID | NUMBER 
+;
+%%
+
+int yyerror(char *msg)
+{
+ printf("Invalid expression\n");
+ exit(0);
+}
+
+main()
+{
+ printf("enter the expression: \n");
+ yyparse();
+}
