@@ -1,0 +1,31 @@
+%{
+#include<stdio.h>
+int count1=0, count2=0;
+%}
+
+%%
+"printf" {fprintf(yyout,"writef"); count1++;}
+"scanf" {fprintf(yyout,"readf"); count2++;}
+%%
+
+int main(int argc, char *argv[])
+{
+	yyin=fopen("f1.c","r");
+	yyout=fopen("f3.c","w");
+	yylex();
+	printf("No. of printf lines = %d\n",count1);
+	printf("No. of scanf lines = %d\n",count2);
+	
+}
+
+int yywrap()
+{
+return 1;
+}
+
+
+
+
+
+//create a sepeerate c file with printf and scan and see the output
+with the file anme given in the above code
