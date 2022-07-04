@@ -1,0 +1,56 @@
+%{
+    #include<stdio.h>
+    #include<string.h>
+    int idCnt=0, oprtCnt=0, l=0, k=0, constCnt = 0, sb=0, cb=0, flag=0;
+    char opArr[10][10], idArr[10][10];
+%}
+%%
+[a-zA-Z][a-zA-Z0-9_]* {
+                        idCnt++;
+                        strcpy(idArr[l], yytext);
+                        l++;
+                        }
+
+[\+\-\*\/]            {
+                        oprtCnt++;
+                        strcpy(opArr[k], yytext);
+                        k++;
+                        }
+
+[0-9]+                  {constCnt++;}
+
+"{"                 {cb++;}
+
+"}"                 {cb--;}
+
+"("                 {sb++;}
+")"                 {sb--;}
+
+[ \t]               {;}
+\n                  {return 0;}
+[;]                 {flag=1;}
+.                   {return yytext[0];}
+%%
+
+int main(){
+    printf("\n Enter an expression: ");
+    yylex();
+
+    if((oprtCnt + 1)==(idCnt + constCnt) && flag==0 && sb==0 && cb==0){
+        printf("\n Valid expression");
+        printf("\nOperartors are: ");
+        for(int i=0; i<oprtCnt; i++){
+            printf("%s ", opArr[i]);
+        }
+        printf("\nIdentifiers are: ");
+        for(int i=0; i<idCnt; i++){
+            printf("%s ", idArr[i]);
+        }
+        printf("\n Total no. of Operators: %d", oprtCnt);
+        printf("\n Total no. of identifiers: %d", idCnt);
+    }else{
+        printf("\n Invalid expression");
+    }
+}
+
+int yywrap(){}
