@@ -1,0 +1,40 @@
+LEX:
+
+%{
+    #include "y.tab.h"
+%}
+%%
+[aA] {return A;}
+[bB] {return B;}
+\n {return NL;}
+. {return yytext[0];}
+%%
+
+int yywrap(){}
+
+
+YACC:
+
+%{
+    #include<stdio.h>
+%}
+
+%token A B NL 
+%%
+S: T NL {printf("\nString belongs to the grammar\n");exit(0);}
+   ;
+T: A T B
+  |
+  ;
+%%
+
+int yyerror(){
+    printf("\nThe string does not belong to the grammar\n");
+    return 0;
+}
+
+int main(){
+    printf("\n Enter a string: ");
+    yyparse();
+    return 0;
+}
