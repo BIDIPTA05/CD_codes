@@ -1,0 +1,59 @@
+LEX:
+
+%{
+	/* Definition section*/
+	#include "y.tab.h"
+%}
+
+%%
+[0-9]+ {return NUMBER;}
+
+[a-zA-Z][a-zA-Z0-9_]* { return ID; }
+\t {;}
+\n	 { return NL; }   
+.	 { return yytext[0]; }
+%%
+
+
+YACC:
+
+%{
+	/* Definition section */
+        #include<stdio.h>
+        #include<stdlib.h>
+%}
+
+%token NUMBER ID NL
+// setting the precedence
+// and associativity of operators
+%left '+' '-'
+%left '*' '/'
+
+
+/* Rule Section */
+%%
+
+stmt : exp NL {printf("\n Valid expression"); exit(0);}
+     ;
+exp : exp '+' exp
+    | exp '-' exp
+    | exp '*' exp
+    | exp '/' exp
+    | '(' exp ')'
+    | ID
+    | NUMBER ;
+%%
+
+int main() {
+	printf("Enter the expression:\n ");
+	yyparse();
+}
+        
+/* For printing error messages */
+int yyerror(char* s) {
+	printf("\nExpression is invalid\n");
+        exit(0);
+}
+
+
+
