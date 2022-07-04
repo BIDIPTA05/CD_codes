@@ -1,0 +1,47 @@
+%{
+ #include<stdio.h>
+ #include<string.h>
+ int count=0;
+%}
+
+%%
+"/"[^/]"/" {count++;}
+"//"[a-zA-Z0-9 \t]+ {count++;}
+%%
+
+int main()
+{ yyin=fopen("in.c","r");
+  yyout=fopen("out.c","w");
+  yylex();
+  fclose(yyout);
+  fclose(yyin);
+  printf("no of comment lines=%d\n",count);
+  return 0;
+}
+int yywrap()
+{
+}
+
+
+
+
+c-program part
+
+
+#include <stdio.h>
+int main() {    
+
+    int number1, number2, sum;
+    
+    printf("Enter two integers: ");
+    scanf("%d %d", &number1, &number2);
+//files.
+
+//comment 2.
+//comment.
+    // calculating sum
+    sum = number1 + number2;      
+    
+    printf("%d + %d = %d", number1, number2, sum);
+    return 0;
+}
