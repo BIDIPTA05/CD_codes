@@ -1,0 +1,20 @@
+%{
+    #include<stdio.h>
+    #include<string.h>
+    int vowels=0, cons=0,posint=0;
+%}
+
+%%
+[aeiouAEIOU][aeiouAEIOU] {vowels++;}
+[a-zA-Z][a-zA-Z] {cons++;}
+[+]?[0-9]+ {posint++;}
+%%
+
+int yywrap(void){}
+int main(){
+    printf("Enter a string: ");
+    yyin = fopen("a.txt","r");
+    yylex();
+    printf("Vowels: %d\n Consonants: %d\n Positive_Int: %d", vowels,cons,posint);
+    return 0;
+}
