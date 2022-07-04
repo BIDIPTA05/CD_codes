@@ -1,0 +1,48 @@
+LEX:
+
+%{
+    #include "y.tab.h"
+%}
+%%
+[0-9] {return DIGIT;}
+[a-zA-Z] {return LETTER;}
+\n {return NL;}
+[_] {return UND;}
+. {return yytext[0];}
+%%
+
+int yywrap(){}
+
+
+YACC:
+
+%{
+    #include<stdio.h>
+%}
+
+%token LETTER DIGIT NL UND
+%%
+STMT: VARIABLE NL {printf("Valid variable."); exit(0);}
+    ;
+VARIABLE: LETTER ALPHANUMERIC
+          | LETTER
+          ;
+
+ALPHANUMERIC : LETTER ALPHANUMERIC
+               | DIGIT ALPHANUMERIC
+               | UND ALPHANUMERIC
+               | LETTER
+               | DIGIT
+               | UND
+               ;
+%%
+
+int yyerror(){
+    printf("\nInvalid variable");
+    return 0;
+}
+
+int main(){
+    printf("\n Enter a variable: ");
+    yyparse();
+}
