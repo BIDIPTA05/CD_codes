@@ -1,0 +1,22 @@
+%{
+    #include<stdio.h>
+    #include<string.h>
+    int posint=0, negint=0, posfrac=0, negfrac=0;
+%}
+
+%%
+[-][0-9]+ {negint++;}
+[+]?[0-9]+ {posint++;}
+[-][0-9]*\.[0-9]+ {negfrac++;}
+[+]?[0-9]*\.[0-9]+ {posfrac++;}
+[\n|\t] {;}
+%%
+int yywrap(void){}
+
+int main(int argc, char* argv[]){
+    
+    yyin = fopen("a2.txt", "r");
+    yylex();
+    printf("Positive int: %d\n Negative Int: %d\n Positive fractions: %d\n Negative fractions: %d",posint,negint,posfrac,negfrac);
+    return 0;
+}
