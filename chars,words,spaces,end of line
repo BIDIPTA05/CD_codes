@@ -1,0 +1,21 @@
+%{
+    #include<stdio.h>
+    int nchar=0, nwords=0, nlines=0, nspaces=0;
+%}
+%%
+\n              {nlines++;}
+" "             {nspaces++;}
+\t              {nspaces++;}
+([a-zA-Z0-9])*  {nwords++, nchar+= yyleng;}
+.               {nchar++;}
+
+%%
+int main(){
+    yyin = fopen("a.txt","r");
+    yylex();
+    printf("\n Chars: %d\n Words: %d\n Lines: %d\n", nchar, nwords, nlines);
+    return 0;
+}
+int yywrap(){
+    return 1;
+}
