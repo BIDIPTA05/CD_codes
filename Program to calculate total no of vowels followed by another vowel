@@ -1,0 +1,26 @@
+lex::
+
+%{
+    #include<stdio.h>
+    int vow=0, cons=0, num=0;
+%}
+
+
+VOWEL [aeiouAEIOU]
+CONS [a-zA-Z] 
+
+%%
+{VOWEL}{VOWEL} {vow++;}
+{CONS}{CONS} {cons++;}
+[0-9] {num++;}
+. {;}
+[\n] {return 0;}
+
+%%
+int yywrap(){}
+int main(){
+    printf("\nEnter a string: ");
+    yylex();
+    printf("\nNo. of vowels followed by another vowel: %d\nNo. of consonants followed by another consonant: %d\nTotal No. of numbers: %d", vow, cons, num);
+    return 0;
+}
