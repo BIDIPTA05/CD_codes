@@ -1,0 +1,24 @@
+/*Program to count the no of comment line in a given C program. Also
+eliminate them, replace with "This was a comment" and copy that program into separate file*/
+
+%{
+    #include<stdio.h>
+    int a=0, b=0;
+%}
+
+%%
+"//".* {a++; fprintf(yyout, "/*This was a comment*/");}
+"/*"[a-zA-Z0-9 \n]*"*/" {b++; fprintf(yyout, "/*This was a comment*/");}
+[.|\n]* {fprintf(yyout, yytext);}
+%%
+
+int yywrap(){}
+int main(){
+    yyin = fopen("a3.c","r");
+    yyout = fopen("a4.txt", "w");
+    yylex();
+    printf("Single line comments: %d\n",a);
+    printf("Multi line comments: %d\n",b);
+    printf("Total Comments: %d", a+b);
+    return 0;
+}
